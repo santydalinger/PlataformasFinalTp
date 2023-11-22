@@ -34,21 +34,18 @@ export class SignupPage implements OnInit {
     return this.regForm?.controls;
   }
   async signUp(){
-    const loading=await this.loadingCtlr.create()
-    await loading.present()
-    if(this.regForm?.valid){
-      const user=await this.authService.registerUser(this.regForm.value.email,this.regForm.value.password).catch((error)=>{
-        
-        console.log(error)
-        loading.dismiss()
-      })
-      if(user){
-        loading.dismiss()
+    //const loading=await this.loadingCtlr.create()
+    console.log(this.regForm.value)
+    //await loading.present()
+    if(!this.regForm?.valid){
+      this.authService.registerUser(this.regForm.value.email,this.regForm.value.password).then((resp)=>{
+        console.log(resp)
+        //loading.dismiss()
         this.router.navigate(['/home'])
-      }else{
-        console.log('ingresa valores correctos')
-        
-      }
+      }).catch((error)=>{
+        console.log(error);
+        //loading.dismiss()
+      })
     }
   }
 }
